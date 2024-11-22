@@ -1,3 +1,31 @@
-.form-control{
-    border: 1px solid gray !important ;
+.crud-table {
+    width: 98%;
+    /* display: flex; */
+    position: relative;
+}
+
+.card-1 {
+    position: absolute;
+    margin-right: 29%;
+    margin-top: 15px;
+}
+
+.card-2 {
+    position: absolute;
+    margin-left: 69%;
+    margin-top: 15px;
+}
+
+.form-control {
+    border: 1px solid gray !important;
+}
+
+@media  (max-width: 476px) {
+    div .crud-table >* {
+        display: flex !important;
+        flex-direction: column !important;
+        background-color: blueviolet;
+    }
+
+   
 }

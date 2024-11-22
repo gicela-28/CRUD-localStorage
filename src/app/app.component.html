@@ -1,5 +1,5 @@
-<div class="container justify-content-center flex-row">
-    <div class="col-8">
+<div class="crud-table justify-content-center flex-row row">
+    <div class="col-8 card-1">
         <div class="card">
             <div class="card-header bg-success">
                 <h6>Employee List</h6>
@@ -8,21 +8,38 @@
                 <div class="row">
                     <div class="col-12">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="flex">
                                 <tr>
                                     <th>Sr No</th>
                                     <th>Name</th>
                                     <th>Contact No</th>
                                     <th>Email-Id</th>
+                                    <th>Address</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @for (item of employeeList; track $index){
+                                <tr>
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.contactNo}}</td>
+                                    <td>{{item.emailId}}</td>
+                                    <td>{{item.address}}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger" (click)="onEdit(item)">Edit</button>
+                                        <button class="btn btn-outline-warning" (click)="onDelete(item.empId)">Delete</button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-4 card-2">
         <div class="card">
             <div class="card-header bg-success">
                 New Employee
@@ -33,10 +50,24 @@
                         <div class="col-12">
                             <label for="">Name</label>
                             <input type="text" formControlName="name" class="form-control">
+                            <div class="text-danger">
+                                @if(employeeForm.controls['name'].touched){
+                                  @if(employeeForm.controls['name'].errors?.['required']){
+                                    <span>Name is required</span>
+                                  }
+                                }
+                            </div>
                         </div>
                         <div class="col-6">
                             <label for="">Email-Id</label>
                             <input type="text" formControlName="emailId" class="form-control">
+                            <div class="text-danger">
+                                @if(employeeForm.controls['emailId'].touched){
+                                  @if(employeeForm.controls['emailId'].errors?.['required']){
+                                    <span>Name is required</span>
+                                  }
+                                }
+                            </div>
                         </div>
                         <div class="col-6">
                             <label for="">Contact No</label>
@@ -53,6 +84,16 @@
                         <div class="col-6">
                             <label for="">Pin Code</label>
                             <input type="text" formControlName="pinCode" class="form-control">
+                            <div class="text-danger">
+                                @if(employeeForm.controls['pinCode'].touched){
+                                  @if(employeeForm.controls['pinCode'].errors?.['required']){
+                                    <span>Name is required</span>
+                                  }
+                                  @if(employeeForm.controls['pinCode'].errors?.['minlength']){
+                                    <span>Name is required</span>
+                                  }
+                                }
+                            </div>
                         </div>
                         <div class="col-12">
                             <label for="">Address</label>
@@ -61,12 +102,14 @@
                     </div>
                     <div class="row pt-2">
                         <div class="col-6 text-center">
-                            <button class="btn btn-secondary">
-                                Reset
-                            </button>
+                            <button class="btn btn-secondary" type="button" (click)="reset()">Reset</button>
                         </div>
                         <div class="col-6 text-center">
-                            <button class="btn btn-success" (click)="onSave()">Save Employee</button>
+                            @if (employeeForm.controls['empId'].value== '1'){
+                              <button class="btn btn-success" type="button" [disabled]="employeeForm.invalid" (click)="onSave()">Save Employee</button>
+                            }@else{
+                                <button class="btn btn-warning" type="button" [disabled]="employeeForm.invalid" (click)="onUpdate()">Save Employee</button>
+                            }
                         </div>
                     </div>
                 </form>
